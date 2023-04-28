@@ -33,14 +33,27 @@ export default {
 
   methods: {
     joinGame() {
-      axios.post('http://127.0.0.1:8000/api/participant/', {
+      this.$store.commit("setAlias", this.alias),
+        this.$store.commit("setGameID", this.gameID);
+      const info = {
+        alias: this.alias,
+        gameId: this.gameId,
+        uuidp: this.uuidP
+      };
+
+      axios.post('/api/participant/', {
         game: this.gameId,
         alias: this.alias,
-        uuidp: this.uuidP
+        uuidP: this.uuidP
       }).then(response => {
+        console.log("response: ");
         console.log(response);
-        this.$store.commit('setAlias', this.alias);
-        this.$store.commit('setGameID', this.gameId);
+        console.log("response.data: ");
+        console.log(response.data);
+        /*         this.$store.commit('setAlias', this.alias);
+                this.$store.commit('setGameID', this.gameId); */
+        console.log("response.data.uuidP: ");
+        console.log(response.data.uuidP);
         this.$store.commit('setUuidP', response.data.uuidP);
         this.error = null;
         this.$router.push('/wait');
@@ -48,6 +61,7 @@ export default {
         console.log(error);
         this.error = error.response.data.error;
       });
+
       this.oldGameId = this.gameId;
     }
   }
