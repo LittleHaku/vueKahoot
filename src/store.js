@@ -6,6 +6,7 @@ const store = createStore({
         uuidP: '',
         alias: '',
         gameId: '',
+        state: '',
         error: '',
     },
     mutations: {
@@ -21,6 +22,9 @@ const store = createStore({
         setError(state, error) {
             state.error = error;
         },
+        setState(state, stateGame) {
+            state.state = stateGame;
+        }
     },
     actions: {
 
@@ -30,6 +34,7 @@ const store = createStore({
         alias: state => state.alias,
         gameId: state => state.gameId,
         error: state => state.error,
+        state: state => state.state,
     },
 });
 

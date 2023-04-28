@@ -2,8 +2,7 @@
     <div>
         <div class="container mt-3">
             <h1>Waiting for Game to Start</h1>
-            <p v-if="gameStatus === 'WAITING'">Waiting for the game to start...</p>
-            <p v-if="gameStatus === 'QUESTION'">The game has started! Proceeding to the next page...</p>
+            <p>Waiting for the game to start...</p>
             <p v-if="errorMsg" class="text-danger mt-3">{{ errorMsg }}</p>
         </div>
     </div>
@@ -16,7 +15,6 @@ export default {
     name: 'Wait',
     data() {
         return {
-            gameStatus: 'WAITING',
             errorMsg: '',
         };
     },
@@ -26,20 +24,29 @@ export default {
     methods: {
         checkGameStatus() {
             setInterval(() => {
-                axios.get(`http://127.0.0.1:8000/api/games/${this.$store.state.gameId}/`)
+                axios.get(`/api/games/${this.$store.state.gameId}/`)
                     .then(response => {
-                        this.gameStatus = response.data.status;
-                        if (this.gameStatus === 'QUESTION') {
+                        console.log("response: ");
+                        console.log(response);
+                        console.log("response.data: ");
+                        console.log(response.data);
+                        console.log("response.data.state: ");
+                        console.log(response.data.state);
+
+                        if (response.data.state === 2) {
+                            console.log("Game is starting");
+                            this.$store.commit('setState', response.data.state);
+
                             this.$router.push('/question');
                         }
                     })
                     .catch(error => {
                         console.log(error);
-                        this.errorMsg = error.response.data.error;
+                        this.$store.commit('setError', error.response.data.error);
                     });
             }, 2000);
         },
-    }
-}
+    },
+};
 </script>
   

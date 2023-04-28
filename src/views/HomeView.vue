@@ -33,8 +33,8 @@ export default {
 
   methods: {
     joinGame() {
-      this.$store.commit("setAlias", this.alias),
-        this.$store.commit("setGameID", this.gameID);
+      this.$store.commit("setAlias", this.alias);
+      this.$store.commit("setGameID", this.gameId);
       const info = {
         alias: this.alias,
         gameId: this.gameId,
