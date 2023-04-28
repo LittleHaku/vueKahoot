@@ -22,7 +22,8 @@
 import axios from 'axios';
 
 export default {
-  name: 'App',
+  name: 'HomeView',
+  
   data() {
     return {
       alias: '',
@@ -46,14 +47,12 @@ export default {
         alias: this.alias,
         uuidP: this.uuidP
       }).then(response => {
-        console.log("response: ");
+        /* console.log("response: ");
         console.log(response);
         console.log("response.data: ");
         console.log(response.data);
-        /*         this.$store.commit('setAlias', this.alias);
-                this.$store.commit('setGameID', this.gameId); */
         console.log("response.data.uuidP: ");
-        console.log(response.data.uuidP);
+        console.log(response.data.uuidP); */
         this.$store.commit('setUuidP', response.data.uuidP);
         this.error = null;
         this.$router.push('/wait');

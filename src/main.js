@@ -8,8 +8,9 @@ import axios from 'axios';
 import './assets/main.css'
 
 const app = createApp(App)
-const baseURL = 'http://127.0.0.1:8000';
+const baseURL = 'https://cajut.onrender.com/';
 axios.defaults.baseURL = baseURL;
+
 
 app.use(router)
 app.use(store)

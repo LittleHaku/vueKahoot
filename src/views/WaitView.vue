@@ -26,18 +26,20 @@ export default {
             setInterval(() => {
                 axios.get(`/api/games/${this.$store.state.gameId}/`)
                     .then(response => {
-                        console.log("response: ");
+                        /* console.log("response: ");
                         console.log(response);
                         console.log("response.data: ");
                         console.log(response.data);
                         console.log("response.data.state: ");
-                        console.log(response.data.state);
+                        console.log(response.data.state); */
 
                         if (response.data.state === 2) {
                             console.log("Game is starting");
                             this.$store.commit('setState', response.data.state);
-
-                            this.$router.push('/question');
+                            // wait for countdown to finish
+                            setTimeout(() => {
+                                this.$router.push('/question');
+                            }, (response.data.countdownTime * 1000));
                         }
                     })
                     .catch(error => {
