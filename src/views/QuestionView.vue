@@ -1,20 +1,25 @@
 <template>
-    <div class="kajut-buttons">
-        <div class="kajut-button kajut-red" @click="handleAnswer(0)">
-            <div class="kajut-button-number">1</div>
-            <div class="kajut-button-text">Red</div>
+    <div>
+        <div v-if="submitMessage" class="submit-message" :class="{ 'success': success, 'error': !success }">
+            {{ submitMessage }}
         </div>
-        <div class="kajut-button kajut-blue" @click="handleAnswer(1)">
-            <div class="kajut-button-number">2</div>
-            <div class="kajut-button-text">Blue</div>
-        </div>
-        <div class="kajut-button kajut-green" @click="handleAnswer(2)">
-            <div class="kajut-button-number">3</div>
-            <div class="kajut-button-text">Green</div>
-        </div>
-        <div class="kajut-button kajut-yellow" @click="handleAnswer(3)">
-            <div class="kajut-button-number">4</div>
-            <div class="kajut-button-text">Yellow</div>
+        <div class="kajut-buttons">
+            <div class="kajut-button kajut-red" @click="handleAnswer(0)">
+                <div class="kajut-button-number">1</div>
+                <div class="kajut-button-text">Red</div>
+            </div>
+            <div class="kajut-button kajut-blue" @click="handleAnswer(1)">
+                <div class="kajut-button-number">2</div>
+                <div class="kajut-button-text">Blue</div>
+            </div>
+            <div class="kajut-button kajut-green" @click="handleAnswer(2)">
+                <div class="kajut-button-number">3</div>
+                <div class="kajut-button-text">Green</div>
+            </div>
+            <div class="kajut-button kajut-yellow" @click="handleAnswer(3)">
+                <div class="kajut-button-number">4</div>
+                <div class="kajut-button-text">Yellow</div>
+            </div>
         </div>
     </div>
 </template>
@@ -76,6 +81,22 @@
     color: white;
     text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
 }
+
+.submit-message {
+    padding: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.success {
+    background-color: #43a047;
+    color: white;
+}
+
+.error {
+    background-color: #e53935;
+    color: white;
+}
 </style>
   
 <script>
@@ -90,7 +111,9 @@ export default {
             uuidp: '',
             alias: '',
             answer: '',
-            error: ''
+            error: '',
+            success: false,
+            submitMessage: ''
         }
     },
 
@@ -101,29 +124,35 @@ export default {
             this.game = this.$store.state.gameId;
             this.uuidp = this.$store.state.uuidP;
 
-
             axios.post('/api/guess/', {
                 game: this.game,
-                //participant: this.alias,
                 answer: this.answer,
                 uuidp: this.uuidp
             },
-            {
-                withCredentials: false
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                }
-            }).then(response => {
-                console.log('Answer submitted:', response.data)
-            }).catch(error => {
-                console.error('Error submitting answer:', error)
-            })
-        }
+                {
+                    withCredentials: false
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    }
+                }).then(response => {
+                    console.log('Answer submitted:', response.data);
+                    this.submitMessage = 'Answer submitted successfully!';
+                    this.success = true;
+                }).catch(error => {
+                    console.error('Error submitting answer:', error.response.data);
+                    // get the error message from the data in the response
+                    this.submitMessage = error.response.data.detail;
+            this.success = false;
+        })
     }
 }
+}
 </script>
+
+
+
 
   
