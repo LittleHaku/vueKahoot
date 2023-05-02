@@ -95,18 +95,27 @@ export default {
     },
 
     methods: {
-        handleAnswer(answerIndex) {
+        handleAnswer(guess) {
             this.alias = this.$store.state.alias;
-            this.answer = answerIndex;
+            this.answer = guess;
             this.game = this.$store.state.gameId;
             this.uuidp = this.$store.state.uuidP;
 
 
-            axios.post('/api/guess', {
+            axios.post('/api/guess/', {
                 game: this.game,
-                alias: this.alias,
+                //participant: this.alias,
                 answer: this.answer,
-                uuidP: this.uuidp
+                uuidp: this.uuidp
+            },
+            {
+                withCredentials: false
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                }
             }).then(response => {
                 console.log('Answer submitted:', response.data)
             }).catch(error => {

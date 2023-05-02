@@ -23,7 +23,7 @@ import axios from 'axios';
 
 export default {
   name: 'HomeView',
-  
+
   data() {
     return {
       alias: '',
@@ -46,6 +46,13 @@ export default {
         game: this.gameId,
         alias: this.alias,
         uuidP: this.uuidP
+      }, {
+        withCredentials: false
+      },{
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        }
       }).then(response => {
         /* console.log("response: ");
         console.log(response);
