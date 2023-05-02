@@ -141,14 +141,20 @@ export default {
                     console.log('Answer submitted:', response.data);
                     this.submitMessage = 'Answer submitted successfully!';
                     this.success = true;
+                    setTimeout(() => {
+                        this.submitMessage = '';
+                    }, 2000);
                 }).catch(error => {
                     console.error('Error submitting answer:', error.response.data);
                     // get the error message from the data in the response
                     this.submitMessage = error.response.data.detail;
-            this.success = false;
-        })
+                    setTimeout(() => {
+                        this.submitMessage = '';
+                    }, 2000);
+                    this.success = false;
+                })
+        }
     }
-}
 }
 </script>
 
